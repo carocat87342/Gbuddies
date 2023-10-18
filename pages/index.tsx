@@ -9,7 +9,6 @@ import TweenMax from "gsap"
 import Header from '../components/header/Header';
 
 import fontStyle from "../public/assets/fonts/gentilis_bold.typeface.json"
-import { text } from 'node:stream/consumers';
 class Home extends React.Component<{}> { 
 
   componentDidMount(){        
@@ -29,8 +28,8 @@ class Home extends React.Component<{}> {
       width: window.innerWidth,
       height: window.innerHeight
     }
-    // console.log(sizes.width)
-    // console.log(sizes.height)
+    console.log(sizes.width)
+    console.log(sizes.height)
 
     let sili_scale = 0
     let rot_scale = 0
@@ -302,6 +301,7 @@ class Home extends React.Component<{}> {
     )
     
     
+    
 
     //=========== scene, camera, renderer ===========
     container = document.getElementById( 'index-canvas-container' );
@@ -362,40 +362,6 @@ class Home extends React.Component<{}> {
     ambientLight.intensity = 0.3
     scene.add(ambientLight)
 
-    // Create a texture loader so we can load our image file
-    const loader = new THREE.TextureLoader();
-
-    const geometry = new THREE.PlaneBufferGeometry( 1, 1 );
-
-    const materialImg = new THREE.MeshPhongMaterial({
-      map: loader.load('/assets/img/cat.jpg'),
-      side: THREE.DoubleSide,
-      transparent: true,
-    });
-
-    materialImg.needsUpdate = true;
-    const planeImg = new THREE.Mesh( geometry, materialImg );
-    planeImg.position.set(-2, -13, 0)
-
-    // load font
-    const font = new FontLoader().parse(fontStyle);
-
-    // create text
-    const textEnt = new Text();
-
-    textEnt.text = "Hello";
-    textEnt.font = font;
-    textEnt.fontSize = 1.0;
-    textEnt.maxWidth = 1.0;
-    textEnt.position.x = -1.0;
-    textEnt.position.y = -12.0;
-    textEnt.position.z = 1.0;
-    textEnt.textAlign = "center";
-    textEnt.color = 0xFF0000;
-    textEnt.anchorX = "right";
-    textEnt.anchorY = "middle";
-    textEnt.sync()
-
     /**
      * Renderer
      */
@@ -415,11 +381,13 @@ class Home extends React.Component<{}> {
     let currentSection = 0
 
     window.addEventListener('scroll', () => {
-      // console.log('scroll = ', window.scrollY)
+      console.log('scroll = ', window.scrollY)
 
       scrollY = window.scrollY / 2
       
       const newSection = scrollY / sizes.height
+      console.log(scrollY)
+      console.log(newSection)
 
       if (newSection != currentSection) {
         currentSection = newSection
@@ -452,16 +420,13 @@ class Home extends React.Component<{}> {
           scene.remove(outerCasingMesh)
           scene.remove(carbonCheeseClothMesh)
           scene.remove(cornSpiralMesh)
-          scene.remove(planeImg);
-          scene.remove(textEnt)
+        
         }
         if (0.39 * flip_parms < newSection && newSection < 0.5 * flip_parms) {
           siliconBongMesh.rotation.set(0, 0, - Math.PI )
           scene.add(outerCasingMesh)
           scene.add(carbonCheeseClothMesh)
           scene.add(cornSpiralMesh)
-          scene.add(planeImg);
-          scene.add(textEnt)
         }
         if (0.51 * flip_parms < newSection && newSection  < 0.93 * extract_parms) {
           outerCasingMesh.position.set(0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * cart_move), carty)
@@ -486,6 +451,8 @@ class Home extends React.Component<{}> {
       renderer.setSize(sizes.width, sizes.height)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     })
+
+
     
     // cursor
     const cursor = {x: 0, y: 0};
@@ -526,11 +493,59 @@ class Home extends React.Component<{}> {
       silLigLBlue.position.set(Math.sin((elapsedTime / 2) - (Math.PI * 4 / 5 * 2)) * rot_scale, 1.5 * sili_scale, Math.cos((elapsedTime / 2) - (Math.PI * 4 / 5 * 2)) * rot_scale)
       silLigPinOran.position.set(Math.sin((elapsedTime / 2) - (Math.PI * 2)) * rot_scale, 1.5 * sili_scale, Math.cos((elapsedTime / 2) - (Math.PI * 2)) * rot_scale)
 
+      console.log('----------- scroll ----------- = ', window.scrollY)
+
+      scrollY = window.scrollY / 2
       
+      const newSection = scrollY / sizes.height
+      console.log(scrollY)
+      console.log(newSection)
+
+      if (newSection != currentSection) {
+        currentSection = newSection
+      }
+
+      console.log(' 0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * cart_move), carty= ', 0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * cart_move), carty)
+
+      // if (0.01 < newSection && newSection  < 0.39 * flip_parms) {
+      //   siliconBongMesh.rotation.set(0, 0, - Math.PI * newSection * 2.57 * flip_rot_scale)
+      //   scene.remove(outerCasingMesh)
+      //   scene.remove(carbonCheeseClothMesh)
+      //   scene.remove(cornSpiralMesh)
       
+      // }
+      // if (0.39 * flip_parms < newSection && newSection < 0.5 * flip_parms) {
+      //   siliconBongMesh.rotation.set(0, 0, - Math.PI )
+      //   scene.add(outerCasingMesh)
+      //   scene.add(carbonCheeseClothMesh)
+      //   scene.add(cornSpiralMesh)
+      // }
+      // if (0.51 * flip_parms < newSection && newSection  < 0.93 * extract_parms) {
+      //   outerCasingMesh.position.set(0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * cart_move), carty)
+      //   carbonCheeseClothMesh.position.set(0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * cloth_move), carty)
+      //   cornSpiralMesh.position.set(0, cartz * -4.3 - ((newSection - 0.51 * flip_parms) * corn_move), carty)
+      // }
+
+      // load font
+      const font = new FontLoader().parse(fontStyle);
+
+      // create text
+      const textEnt = new Text();
       
 
-
+      textEnt.text = "Hallo1";
+      textEnt.font = font;
+      textEnt.fontSize = 1.0;
+      textEnt.maxWidth = 1.0;
+      textEnt.position.x = 0.0;
+      textEnt.position.y = 0.0;
+      textEnt.position.z = 0.0;
+      textEnt.textAlign = "center";
+      textEnt.color = 0xFF0000;
+      textEnt.anchorX = "center";
+      textEnt.anchorY = "middle";
+      console.log(textEnt)
+      scene.add(textEnt)
 
       // Render
       renderer.render(scene, camera)
